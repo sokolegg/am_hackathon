@@ -1,0 +1,43 @@
+import json
+import glob
+import os
+
+def process_file(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+            for item in data['questions']:
+                yield {
+                    "role": "user",
+                    "content": item['question']
+                }
+                yield {
+                    "role": "assistant",
+                    "content": item['right_answers']
+                }
+    except json.JSONDecodeError as e:
+        print(f"Error parsing {file_path}: {e}")
+    except KeyError as e:
+        print(f"Missing expected key in {file_path}: {e}")
+    except Exception as e:
+        print(f"Unexpected error processing {file_path}: {e}")
+
+def main():
+    output_file = 'output.json'
+    input_files = glob.glob('../jsons/*.json')  # Adjust the pattern if your files have a specific naming convention
+
+    all_messages = []
+
+    for file_path in input_files:
+        print(f"Processing {file_path}...")
+        all_messages.extend(list(process_file(file_path)))
+
+    output_data = {"messages": all_messages}
+
+    with open(output_file, 'w') as outfile:
+        json.dump(output_data, outfile, indent=2)
+
+    print(f"Conversion complete. Output saved to {output_file}")
+
+if __name__ == "__main__":
+    main()
