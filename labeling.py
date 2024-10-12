@@ -29,7 +29,7 @@ def process_txts_folder(folder: str):
 
 
 if __name__ == "__main__":
-    pool = Pool(4)
-    pool.map(process_txts_folder, ["data/nhs_pages_txt/"] * 4)
+    pool = Pool(16)
+    pool.map(process_txts_folder, ["data/nhs_pages_txt/", "data/mayo_txt"] * 16)
 
 
