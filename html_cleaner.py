@@ -2,26 +2,28 @@ import os
 import re
 from bs4 import BeautifulSoup
 
+folder_path = 'data/mayo'
+
 def clean_html(html_content):
     # Parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(html_content, 'html.parser')
 
     # Remove all script and style elements
-    for element in soup(['script', 'style', 'footer', 'header', 'nav', 'aside']):
+    for element in soup(['style']):
         element.decompose()
 
     # Get the HTML content without script/style tags but still with other tags
     html_without_scripts = str(soup)
 
-    # Use a regular expression to replace all HTML tags with a \n instead of h1, h2, h3, p, etc.
-    # replace h1 with \n\n\n
+    # # Use a regular expression to replace all HTML tags with a \n instead of h1, h2, h3, p, etc.
+    # # replace h1 with \n\n\n
     clean_text = re.sub(r'<h1[^>]*>', '\n\n\n', html_without_scripts)
-    # replace h2 with \n\n
-    clean_text = re.sub(r'<h2[^>]*>', '\n\n', clean_text)
-    # replace h3 with \n
-    clean_text = re.sub(r'<h3[^>]*>', '\n', clean_text)
-
-    clean_text = re.sub(r'<[^>]+>', '\n', clean_text)
+    # # replace h2 with \n\n
+    # clean_text = re.sub(r'<h2[^>]*>', '\n\n', clean_text)
+    # # replace h3 with \n
+    # clean_text = re.sub(r'<h3[^>]*>', '\n', clean_text)
+    #
+    # clean_text = re.sub(r'<[^>]+>', '\n', clean_text)
 
     # Replace multiple more than 2 space with \n
     # clean_text = re.sub(r'\s{2,}', '\n', clean_text)
@@ -48,7 +50,7 @@ def process_html_files_in_folder(folder_path):
             cleaned_text = clean_html(html_content)
 
             # Create a new filename by in folder nhs_pages_txt as txt file
-            new_folder_path = folder_path.replace('nhs_pages', 'nhs_pages_txt')
+            new_folder_path = folder_path + "_txt"
             # create folder
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
@@ -62,7 +64,8 @@ def process_html_files_in_folder(folder_path):
 
             print(f"Processed: {filename} -> {new_filename}")
 
+
 # Example usage:
 if __name__ == "__main__":
-    folder_path = 'data/nhs_pages/'  # Replace with the path to your folder containing HTML files
+    # Replace with the path to your folder containing HTML files
     process_html_files_in_folder(folder_path)
