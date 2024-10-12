@@ -4,6 +4,7 @@ from mistral import invoke
 import json
 import random
 from multiprocessing import Pool
+from mistral_gcp import process
 
 jsons_dir = "data/jsons/"
 
@@ -17,7 +18,9 @@ def process_txts_folder(folder: str):
 
                 generate_f = random.choice([generate_question_prompt, generate_story_prompt])
                 prompt = generate_f() + text
-                questions = invoke(prompt)
+                # questions = invoke(prompt)
+                questions = process(prompt)
+
                 # delete '''json and ''' if exists
                 questions = questions.replace("```json", "").replace("```", "")
                 random_id = random.randint(0, 100000)
@@ -29,7 +32,7 @@ def process_txts_folder(folder: str):
 
 
 if __name__ == "__main__":
-    pool = Pool(16)
-    pool.map(process_txts_folder, ["data/nhs_pages_txt/", "data/mayo_txt"] * 16)
+    pool = Pool(8)
+    pool.map(process_txts_folder, ["data/nhs_pages_txt/", "data/mayo_txt"] * 8)
 
 
