@@ -1,4 +1,4 @@
-from prompts import generate_question_prompt
+from prompts import generate_question_prompt, generate_story_prompt
 import os
 from mistral import invoke
 import json
@@ -14,7 +14,9 @@ def process_txts_folder(folder: str):
             file_path = os.path.join(folder, filename)
             with open(file_path, 'r', encoding='utf-8') as file:
                 text = file.read()
-                prompt = generate_question_prompt() + text
+
+                generate_f = random.choice([generate_question_prompt, generate_story_prompt])
+                prompt = generate_f() + text
                 questions = invoke(prompt)
                 # delete '''json and ''' if exists
                 questions = questions.replace("```json", "").replace("```", "")

@@ -1,7 +1,8 @@
 from mistralai import Mistral
 import os
+import random
 
-api_key = os.environ["MISTRAL_API_KEY"]
+api_key = random.choice([os.environ["MISTRAL_API_KEY"], os.environ["MISTRAL_API_KEY2"]])
 model = "mistral-large-latest"
 
 client = Mistral(api_key=api_key)
