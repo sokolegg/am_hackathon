@@ -1,7 +1,7 @@
 QUESTION_PROMPT = """
 Only Based on next information imagine 10 questions for medical students
 For right answers use exactly answers from text
-For wrong answers imagine some wrong umentioned stuff (but far away from original)
+For wrong answers imagine some wrong unmentioned stuff (but far away from original)
 Each question must contain 5 options and <k> right answers for each question
 
 Structure for your response
