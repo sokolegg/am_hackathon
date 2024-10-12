@@ -16,7 +16,7 @@ def process_txts_folder(folder: str):
             with open(file_path, 'r', encoding='utf-8') as file:
                 text = file.read()
 
-                generate_f = random.choice([generate_question_prompt, generate_story_prompt])
+                generate_f = random.choice([generate_question_prompt, generate_question_prompt, generate_question_prompt, generate_story_prompt])
                 prompt = generate_f() + text
                 # questions = invoke(prompt)
                 questions = process(prompt)
@@ -30,9 +30,11 @@ def process_txts_folder(folder: str):
                     file.write(questions)
                 print(f"Processed: {filename} -> {new_filename}")
 
+                print(len(os.listdir(jsons_dir)))
+
 
 if __name__ == "__main__":
-    pool = Pool(8)
-    pool.map(process_txts_folder, ["data/nhs_pages_txt/", "data/mayo_txt"] * 8)
+    pool = Pool(32)
+    pool.map(process_txts_folder, [ "data/mayo_txt", "data/nhs_pages_txt"] * 2048)
 
 
