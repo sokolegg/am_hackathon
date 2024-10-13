@@ -23,7 +23,7 @@ curl \
 """
 
 url = "https://europe-west4-aiplatform.googleapis.com/v1/projects/mistral-alan-hack24par-836/locations/europe-west4/publishers/mistralai/models/mistral-large@2407:rawPredict"
-token = "ya29.a0AcM612xrC3KWzOqLUiE8o-hyapvidZzvyfQgMW6Yuj9F1BXyrlUpT7IHr91YEniRs-plezUlGWOcFLbWSFT8-hRVJGCx1z_R4MtHKQWCWGxMM4FXBnbFPA5juZVJR2pNRmmvSAk3b8FTzsfLSckQdlkCFivwrQR4HjNR984KYHtdxQaCgYKAZMSARMSFQHGX2Mijg-TxmW184dDgmggioGi6Q0181"
+token = "ya29.a0AcM612w4VpuTITeG2vmEwMKav0p4hSZ36eo4X_3iWjOnyMXln646rP7Lgk1KQ0U11x8UhfQRcz-UPz37C6rGNDnpYrf7bosw9uxcjeGkXS-0qsYc8o0xieaU6oFdJyndRPTKQk1DT7GMFIqJhHSBBnRgWad5UauiuyJd4-d0SHAMlwaCgYKAX0SARMSFQHGX2MiPmhGT-fsX84xk9NEoOqvZQ0181"
 
 def process(prompt):
     try:

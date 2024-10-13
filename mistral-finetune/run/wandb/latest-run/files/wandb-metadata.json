@@ -1,0 +1,44 @@
+{
+  "os":  "Linux-6.8.0-45-generic-x86_64-with-glibc2.39",
+  "python":  "3.10.15",
+  "startedAt":  "2024-10-12T23:28:51.262940Z",
+  "args":  [
+    "example/7B.yaml"
+  ],
+  "program":  "-m train",
+  "git":  {
+    "remote":  "https://github.com/mistralai/mistral-finetune.git",
+    "commit":  "656df1c94c80ca9703ebc471c9f106c9b7a0bfa7"
+  },
+  "email":  "sokolegg2014@gmail.com",
+  "root":  "run",
+  "host":  "omen",
+  "username":  "sokolegg",
+  "executable":  "/home/sokolegg/PycharmProjects/mistral_finetune/.venv/bin/python",
+  "cpu_count":  24,
+  "cpu_count_logical":  32,
+  "gpu":  "[NVIDIA GeForce RTX 4090]",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "1047184248832",
+      "used":  "300148936704"
+    }
+  },
+  "memory":  {
+    "total":  "33317462016"
+  },
+  "cpu":  {
+    "count":  24,
+    "countLogical":  32
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA GeForce RTX 4090",
+      "memoryTotal":  "25757220864",
+      "cudaCores":  16384,
+      "architecture":  "Ada"
+    }
+  ],
+  "cudaVersion":  "12.4"
+}

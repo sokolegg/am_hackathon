@@ -1,59 +1,53 @@
-import os
 import json
+import glob
+import os
 
-def parse_json_files(input_dir, output_file_path):
-    # Initialize a list to hold the output data
-    output_data = []
+def process_file(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+            for item in data['questions']:
+                yield {
+                    "role": "user",
+                    "content": item['question']
+                }, {
+                    "role": "assistant",
+                    "content": item['right_answers']
+                }
+    except json.JSONDecodeError as e:
+        print(f"Error parsing {file_path}: {e}")
+    except KeyError as e:
+        print(f"Missing expected key in {file_path}: {e}")
+    except Exception as e:
+        print(f"Unexpected error processing {file_path}: {e}")
 
-    # Iterate over all files in the input directory
-    for filename in os.listdir(input_dir):
-        if filename.endswith('.json'):
-            # Construct the full file path
-            file_path = os.path.join(input_dir, filename)
+def main():
+    train_output_file = 'data/dataset.jsonl'
+    eval_output_file = 'data/eval_dataset.jsonl'
+    input_files = glob.glob('data/jsons/*.json')  # Adjust the pattern if your files have a specific naming convention
 
-            # Read the JSON file
-            with open(file_path, 'r') as file:
-                data = json.load(file)
+    all_messages = []
 
-                # Process each question in the input data
-                for question_data in data['questions']:
-                    question = question_data['question']
-                    right_answer = question_data['right_answers']
+    for file_path in input_files:
+        print(f"Processing {file_path}...")
+        all_messages.extend(list(process_file(file_path)))
 
-                    # Create the user and assistant messages
-                    user_message = {
-                        "role": "user",
-                        "content": question
-                    }
-                    assistant_message = {
-                        "role": "assistant",
-                        "content": right_answer
-                    }
+    output_data = [{"messages": message} for message in all_messages]
 
-                    # Create the message list for this question
-                    messages = [
-                        user_message,
-                        assistant_message
-                    ]
+    train_data = output_data[:int(len(output_data)*0.8)]
+    eval_data = output_data[int(len(output_data)*0.8):]
 
-                    # Add the message list to the output data
-                    output_data.append({
-                        "messages": messages
-                    })
+    with open(train_output_file, 'w') as outfile:
+        for message in train_data:
+            s = json.dumps(message)
+            outfile.write(s + '\n')
 
-    # Write the output data to the output JSON file
-    with open(output_file_path, 'w') as output_file:
-        json.dump(output_data, output_file, indent=4)
+    with open(eval_output_file, 'w') as outfile:
+        for message in eval_data:
+            s = json.dumps(message)
+            outfile.write(s + '\n')
 
-    print(f"Data has been written to {output_file_path}")
+    print(f"Conversion complete. Output saved to {train_output_file}")
 
 if __name__ == "__main__":
-    # Define the input and output directories and file paths
-    input_dir = 'input_dir'
-    output_file_path = 'output_dir/your_output_file.json'
-
-    # Ensure the output directory exists
-    os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
-
-    # Call the parser function
-    parse_json_files(input_dir, output_file_path)
+    main()
